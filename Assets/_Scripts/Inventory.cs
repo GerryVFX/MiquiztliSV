@@ -1,53 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    public enum  inventory
-    {
-        weapons,
-        items,
-        map,
-        archive
-    }
-    public inventory inventoryView;
-
     public GameObject[] inventoryViews;
+    public GameObject[] inventoryWeapons;  
+    public Sprite[] weaponsIMG;
+    public Image weaponPreview;
+    private Weapon _weapon;
     
-    void Update()
+
+    private void Start()
     {
-        switch (inventoryView)
+        _weapon = FindObjectOfType<Weapon>();
+    }
+
+    private void OnEnable()
+    {
+        weaponPreview.sprite = weaponsIMG[GameManager.instance.currentWeapon];
+        for (int i = 0; i < inventoryWeapons.Length; i++) 
         {
-            case inventory.weapons:
-                inventoryViews[0].SetActive(true);
-                inventoryViews[1].SetActive(false);
-                inventoryViews[2].SetActive(false);
-                inventoryViews[3].SetActive(false);
-                break;
-            case inventory.items:
-                inventoryViews[1].SetActive(true);
-                inventoryViews[0].SetActive(false);
-                inventoryViews[2].SetActive(false);
-                inventoryViews[3].SetActive(false);
-                break;
-            case inventory.map:
-                inventoryViews[2].SetActive(true);
-                inventoryViews[1].SetActive(false);
-                inventoryViews[0].SetActive(false);
-                inventoryViews[3].SetActive(false);
-                break;
-            case inventory.archive:
-                inventoryViews[3].SetActive(true);
-                inventoryViews[1].SetActive(false);
-                inventoryViews[2].SetActive(false);
-                inventoryViews[0].SetActive(false);
-                break;
+            inventoryWeapons[i].SetActive(GameManager.instance.weaponAcces[i]);
         }
     }
 
-    public void SelectView(inventory view)
+    public void SelectView(int view)
     {
-        inventoryView = view;
+        for (int i = 0; i < inventoryViews.Length; i++) 
+        {
+            if(i == view)
+            {
+                inventoryViews[i].SetActive(true);
+            }
+            else
+            {
+                inventoryViews[i].SetActive(false);
+            }
+        }
+    }
+
+    public void EquipWeapon(int index)
+    {
+        _weapon.weaponIndex = index;
+        GameManager.instance.currentWeapon = index;
+        weaponPreview.sprite = weaponsIMG[index];
+    }
+
+    public void CloseMenu()
+    {
+        GameManager.instance.state = GameManager.GameState.inGame;
     }
 }

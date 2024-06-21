@@ -21,47 +21,65 @@ public class PlayerController : MonoBehaviour
     public Vector2 maxSpeedDanger;
 
     [SerializeField] private bool inAimPos;
+    public GameObject aimOrigin;
     [SerializeField] private Weapon fireWeapon;
-    private Weapon.weapons currentWeapon;
     
+    private Inventory inventory;
+
     //Variable temporal testing
     public Material weaponIndicator;
     void Start()
     {
         _controller = GetComponent<CharacterController>();
         fireWeapon = FindObjectOfType<Weapon>();
+        inventory = FindObjectOfType<Inventory>();
     }
     
     void Update()
     {
-        MovePlayer();
+        ActionPlayer();
+        if (GameManager.instance.state == GameManager.GameState.onMenu)
+        {
+            inventory.gameObject.SetActive(true);
+        }
+        else if(GameManager.instance.state == GameManager.GameState.inGame)
+        {          
+            inventory.gameObject.SetActive(false);
+        }
     }
 
-    public void MovePlayer()
+    public void ActionPlayer()
     {
         //Asiganción de valores según el input
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
         playerInput = new Vector3(moveHorizontal, 0, moveVertical);
         playerInput = Vector3.ClampMagnitude(playerInput, 1);
-        
+
         //Revisar si esta apuntando
         
-        if (fireWeapon.weaponType != Weapon.weapons.none)
-        {
-            if (Input.GetMouseButtonDown(0)) inAimPos = true;
-            else if (Input.GetMouseButtonUp(0)) inAimPos = false;
-        }
+        
+        if (Input.GetMouseButtonDown(0)) inAimPos = true;
+        else if (Input.GetMouseButtonUp(0)) inAimPos = false;
+        
         
         if (inAimPos) //Si esta apuntando no se mueve solo rota
         {
             weaponIndicator.color = Color.blue;
             if (playerInput != Vector3.zero)
             {
-                float targetAngle = Mathf.Atan2(playerInput.x, playerInput.z) * Mathf.Rad2Deg;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref speedRotation, 0.1f);
-
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                float rotationAmount = moveHorizontal * (speedRotation * Time.deltaTime);
+                transform.Rotate(0, rotationAmount, 0);
+            }
+            if (moveVertical != 0)
+            {
+                float aimRotationX = moveVertical * -30f; // Ajusta aquí el ángulo según sea necesario
+                aimOrigin.transform.localRotation = Quaternion.Euler(aimRotationX, 0, 0);
+            }
+            else
+            {
+                // Mantén la rotación en cero si no hay movimiento vertical
+                aimOrigin.transform.localRotation = Quaternion.identity;
             }
 
             if (Input.GetMouseButtonDown(1))
@@ -78,6 +96,8 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // Mantén la rotación en cero si no hay movimiento vertical
+            aimOrigin.transform.localRotation = Quaternion.identity;
             weaponIndicator.color = Color.red;
             //Movimiento y rotación según la cámara
             CamDirection();

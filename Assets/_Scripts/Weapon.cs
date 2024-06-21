@@ -6,24 +6,31 @@ public class Weapon : MonoBehaviour
 {
     public enum weapons
     {
-        none,
         pistol,
         shootgun,
         rifle,
-        magnum,
         knife,
-        axe
+        axe,
+        magnum
     }
 
     public weapons weaponType;
+    public int weaponIndex;
     public float damage;
 
     private RaycastHit hit;
     private Ray ray;
 
     public bool meeleAttack;
+
+    private void Start()
+    {
+        weaponIndex = GameManager.instance.currentWeapon;
+    }
+
     void Update()
     {
+     weaponType = (weapons)weaponIndex;
      WeaponDamage();
      ray = new Ray(transform.position, transform.forward);
      Debug.DrawRay(ray.origin, ray.direction * 30f, Color.green);
@@ -48,10 +55,6 @@ public class Weapon : MonoBehaviour
     {
         switch (weaponType)
         {
-            case weapons.none:
-                damage = 0f;
-                meeleAttack = false;
-                break;
             case weapons.pistol:
                 damage = 0.2f;
                 meeleAttack = false;
