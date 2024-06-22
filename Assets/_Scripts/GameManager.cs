@@ -16,9 +16,21 @@ public class GameManager : MonoBehaviour
         cinematic
     }
     public GameState state;
+    
+    //Control de armas
     public bool[] weaponAcces;
     public int currentWeapon;
-
+    
+    //Items de consumo
+    public int pistolAmount;
+    public int shootgunAmount;
+    public int rifleAmount;
+    public int coltAmount;
+    public int pills;
+    public int firstAidKid;
+    public int antidote;
+    public int recordTape;
+    
     private void Awake()
     {
         if (instance == null)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,14 +39,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         ActionPlayer();
-        if (GameManager.instance.state == GameManager.GameState.onMenu)
-        {
-            inventory.gameObject.SetActive(true);
-        }
-        else if(GameManager.instance.state == GameManager.GameState.inGame)
-        {          
-            inventory.gameObject.SetActive(false);
-        }
     }
 
     public void ActionPlayer()
@@ -57,11 +50,8 @@ public class PlayerController : MonoBehaviour
         playerInput = Vector3.ClampMagnitude(playerInput, 1);
 
         //Revisar si esta apuntando
-        
-        
         if (Input.GetMouseButtonDown(0)) inAimPos = true;
         else if (Input.GetMouseButtonUp(0)) inAimPos = false;
-        
         
         if (inAimPos) //Si esta apuntando no se mueve solo rota
         {
@@ -100,7 +90,10 @@ public class PlayerController : MonoBehaviour
             aimOrigin.transform.localRotation = Quaternion.identity;
             weaponIndicator.color = Color.red;
             //Movimiento y rotación según la cámara
-            CamDirection();
+            if (playerInput == Vector3.zero)
+            {
+                CamDirection();
+            }
             movePlayer = (playerInput.x * camRight) + (playerInput.z * camFoward);
             _controller.transform.LookAt(_controller.transform.position + movePlayer);
             _controller.Move(movePlayer * (playerSpeed * Time.deltaTime));

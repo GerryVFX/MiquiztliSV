@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CurrentCamera
   - InactiveCamera
+  - Item
   layers:
   - Default
   - TransparentFX
