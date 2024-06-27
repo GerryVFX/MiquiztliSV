@@ -16,6 +16,7 @@ public class Inventory : MonoBehaviour
     private Weapon _weapon;
     public GameObject[] itemsView;
     public TMP_Text[] itemsAmount;
+    public int itemId;
     
     private void Start()
     {
@@ -87,8 +88,31 @@ public class Inventory : MonoBehaviour
     public void EquipWeapon(int index)
     {
         _weapon.weaponIndex = index;
+        _weapon.amount = _weapon.amountWeapon[index];
         GameManager.instance.currentWeapon = index;
         weaponPreview.sprite = weaponsIMG[index];
+    }
+
+    public void UseItem()
+    {
+
+        if(itemId == 0 || itemId == 1 || itemId == 2 || itemId == 3)
+        {
+            _weapon.ReloadInventory(itemId);
+        }
+        else if(itemId == 4 || itemId == 5 || itemId == 6)
+        {
+
+        }
+    }
+
+    public void Health()
+    {
+
+    }
+    public void Reaload()
+    {
+       _weapon.Reload();
     }
 
     public void CloseMenu()
