@@ -14,6 +14,8 @@ public class Item : MonoBehaviour
         rifle,
         rifleAmmo,
         colt,
+        knife,
+        axe,
         coltAmmo,
         pills,
         firstAidKid,
@@ -67,14 +69,29 @@ public class Item : MonoBehaviour
                 case ItemClass.pistolAmmo:
                     GameManager.instance.pistolAmount += itemAmount;
                     break;  
+                case ItemClass.shootgun:
+                    GameManager.instance.shootgun = true;
+                    break;
                 case ItemClass.shootgunAmmo:
                     GameManager.instance.shootgunAmount+= itemAmount;
+                    break;
+                case ItemClass.rifle:
+                    GameManager.instance.rifle = true;
                     break;
                 case ItemClass.rifleAmmo:
                     GameManager.instance.rifleAmount += itemAmount;
                     break;
+                case ItemClass.colt:
+                    GameManager.instance.colt = true;
+                    break;
                 case ItemClass.coltAmmo:
                     GameManager.instance.coltAmount += itemAmount;
+                    break;
+                case ItemClass.knife:
+                    GameManager.instance.knife = true;
+                    break;
+                case ItemClass.axe:
+                    GameManager.instance.axe = true;
                     break;
                 case ItemClass.pills:
                     GameManager.instance.pillsAmount += itemAmount;

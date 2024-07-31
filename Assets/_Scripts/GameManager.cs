@@ -24,24 +24,28 @@ public class GameManager : MonoBehaviour
     public bool colt;
     public bool knife;
     public bool axe;
+
+    public int indexWeapon;
     
     //Items de consumo
     public int pistolAmount;
+    public int pistolCharge;
     public int shootgunAmount;
+    public int shootgunCharge;
     public int rifleAmount;
+    public int rifleCharge;
     public int coltAmount;
-    public bool pills;
+    public int coltCharge;
     public int pillsAmount;
-    public bool firstAidkid;
     public int firstAidKidAmount;
-    public bool antidote;
     public int antidoteAmount;
-    public bool recordTape;
     public int recordTapeAmount;
 
     public List<string> keys = new List<string>();
     public GameObject inventoryPref;
-    public GameObject inventory;
+    private GameObject inventory;
+    public GameObject pausePref;
+    private GameObject pause;
     
     private void Awake()
     {
@@ -55,6 +59,31 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         
+    }
+
+    public void Pause()
+    {
+        if (state == GameState.inGame)
+        {
+            state = GameState.inPause;
+            if (pause == null)
+            {
+                pause = Instantiate(pausePref);
+                pause.SetActive(true);
+            }
+            else
+            {
+                pause.SetActive(true);
+            }
+            
+            Time.timeScale = 0;
+        }
+        else if(state == GameState.inPause)
+        {
+            state = GameState.inGame;
+            pause.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
     public void OpenInventory()
     {
@@ -79,6 +108,5 @@ public class GameManager : MonoBehaviour
             inventory.SetActive(false);
             Time.timeScale = 1;
         }
-        
     }
 }
