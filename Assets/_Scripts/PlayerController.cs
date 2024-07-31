@@ -25,8 +25,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool inAimPos;
     public GameObject aimOrigin;
     [SerializeField] private Weapon weapon;
-    
-    private Inventory inventory;
 
     //Variable temporal testing
     public Material weaponIndicator;
@@ -34,7 +32,6 @@ public class PlayerController : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         weapon = FindObjectOfType<Weapon>();
-        inventory = FindObjectOfType<Inventory>();
     }
     
     void Update()
