@@ -7,26 +7,25 @@ public class Item : MonoBehaviour
 {
     public enum ItemClass
     {
-        pistol,
+        key,
+        pistolAmmo,
         shootgun,
+        shootgunAmmo,
         rifle,
+        rifleAmmo,
         colt,
+        coltAmmo,
         pills,
         firstAidKid,
         antidote,
         recordTape
     }
-
-    private Inventory _inventory;
+    
     public ItemClass itemType;
     public int itemAmount;
     public bool avalibleToTake;
-
-    private void Start()
-    {
-        _inventory = FindObjectOfType<Inventory>();
-    }
-
+    public bool key;
+    public string keyName;
     private void Update()
     {
         if (avalibleToTake)
@@ -57,32 +56,40 @@ public class Item : MonoBehaviour
 
     public void TakeItem()
     {
-        switch (itemType)
+        if (key)
         {
-            case ItemClass.pistol:
-                GameManager.instance.pistolAmount += itemAmount;
-                break;
-            case ItemClass.shootgun:
-                GameManager.instance.shootgunAmount+= itemAmount;
-                break;
-            case ItemClass.rifle:
-                GameManager.instance.rifleAmount += itemAmount;
-                break;
-            case ItemClass.colt:
-                GameManager.instance.coltAmount += itemAmount;
-                break;
-            case ItemClass.pills:
-                GameManager.instance.pills += itemAmount;
-                break;
-            case ItemClass.firstAidKid:
-                GameManager.instance.firstAidKid += itemAmount;
-                break;
-            case ItemClass.antidote:
-                GameManager.instance.antidote+= itemAmount;
-                break;
-            case ItemClass.recordTape:
-                GameManager.instance.recordTape += itemAmount;
-                break;
+            GameManager.instance.keys.Add(keyName);
+        }
+        else
+        {
+            switch (itemType)
+            {
+                case ItemClass.pistolAmmo:
+                    GameManager.instance.pistolAmount += itemAmount;
+                    break;  
+                case ItemClass.shootgunAmmo:
+                    GameManager.instance.shootgunAmount+= itemAmount;
+                    break;
+                case ItemClass.rifleAmmo:
+                    GameManager.instance.rifleAmount += itemAmount;
+                    break;
+                case ItemClass.coltAmmo:
+                    GameManager.instance.coltAmount += itemAmount;
+                    break;
+                case ItemClass.pills:
+                    GameManager.instance.pillsAmount += itemAmount;
+                    break;
+                case ItemClass.firstAidKid:
+                    GameManager.instance.firstAidKidAmount += itemAmount;
+                    break;
+                case ItemClass.antidote:
+                    GameManager.instance.antidoteAmount += itemAmount;
+                    break;
+                case ItemClass.recordTape:
+                    GameManager.instance.recordTapeAmount += itemAmount;
+                    break;
+            }   
         }
     }
+    
 }

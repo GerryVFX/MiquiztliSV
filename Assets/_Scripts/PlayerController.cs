@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -53,6 +54,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) inAimPos = true;
         else if (Input.GetMouseButtonUp(0)) inAimPos = false;
         
+        if(Input.GetKeyDown(KeyCode.I)) GameManager.instance.OpenInventory();
+        if(Input.GetKeyDown(KeyCode.T)) SceneManager.LoadScene(1);
+        
         if (inAimPos) //Si esta apuntando no se mueve solo rota
         {
             weaponIndicator.color = Color.blue;
@@ -72,17 +76,7 @@ public class PlayerController : MonoBehaviour
                 aimOrigin.transform.localRotation = Quaternion.identity;
             }
 
-            if (Input.GetMouseButtonDown(1))
-            {
-                if (!fireWeapon.meeleAttack)
-                {
-                    fireWeapon.Shoot();
-                }
-                else
-                {
-                    fireWeapon.MeleeAttack();
-                }
-            }
+            
         }
         else
         {
