@@ -8,6 +8,9 @@ using UnityEngine.Rendering;
 
 public class Inventory : MonoBehaviour
 {
+    public int menuType;
+    public GameObject[] menuSelection;
+    
     [SerializeField] private Image currentWeapon;
     [SerializeField] private Sprite[] weaponPreview;
     
@@ -29,8 +32,12 @@ public class Inventory : MonoBehaviour
     public int capacity;
     public int recharge;
     public int itemIndex;
+
+    [SerializeField] private bool onMenu;
     private void OnEnable()
     {
+        onMenu = true;
+        
         weapon = FindObjectOfType<Weapon>();
         
         pistol.SetActive(GameManager.instance.pistol);
@@ -54,6 +61,41 @@ public class Inventory : MonoBehaviour
         coltCharge.text = string.Format("x: {0}", GameManager.instance.coltCharge);
     }
 
+    private void Update()
+    {
+        if (onMenu)
+        {
+            for (int i = 0; i < menuSelection.Length; i++)
+            {
+                if (i == menuType)
+                {
+                    menuSelection[i].SetActive(true);
+                }
+                else
+                {
+                    menuSelection[i].SetActive(false);
+                }
+
+                onMenu = false;
+            } 
+        }
+    }
+
+    public void SelectMenu(int menu)
+    {
+        menuType = menu;
+        for (int i = 0; i < menuSelection.Length; i++)
+        {
+            if (i == menuType)
+            {
+                menuSelection[i].SetActive(true);
+            }
+            else
+            {
+                menuSelection[i].SetActive(false);
+            }
+        }
+    }
     public void PreviewWeapon(int current)
     {
         currentWeapon.sprite = weaponPreview[current];

@@ -129,8 +129,30 @@ public class PlayerController : MonoBehaviour
     }
     void OpenMenus()
     {
-        if(Input.GetKeyDown(KeyCode.I)) GameManager.instance.OpenInventory();
-        if(Input.GetKeyDown(KeyCode.P)) GameManager.instance.Pause();
+        if(GameManager.instance.state == GameManager.GameState.inGame)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                GameManager.instance.OpenInventory();
+                var menu = FindObjectOfType<Inventory>().menuType = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                GameManager.instance.OpenInventory();
+                var menu = FindObjectOfType<Inventory>().menuType = 1;
+            }
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                GameManager.instance.OpenInventory();
+                var menu = FindObjectOfType<Inventory>().menuType = 2;
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                GameManager.instance.OpenInventory();
+                var menu = FindObjectOfType<Inventory>().menuType = 3;
+            }
+            if(Input.GetKeyDown(KeyCode.P)) GameManager.instance.Pause();   
+        }
     }
     public void CamDirection()
     {
